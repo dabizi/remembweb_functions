@@ -27,7 +27,7 @@ const isEmail = (email) => {
     }
  }
 
- exports.validateLogin = (data) => {
+ exports.validateLoginData = (data) => {
     let errors = {};
 
     if (isEmpty(data.email)) errors.email = 'Must not be empty';
