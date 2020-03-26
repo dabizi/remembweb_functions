@@ -7,8 +7,10 @@ CreateUser
 Login
 Post
 Get
+Like
+Add functions to create specific level
 
 Repo for the back-end of the Remembweb website
-Memo : /
-firebase init /
+Memo : \
+firebase init \
 firebase deploy
