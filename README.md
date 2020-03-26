@@ -9,3 +9,6 @@ Post
 Get
 
 Repo for the back-end of the Remembweb website
+Memo : /
+firebase init /
+firebase deploy
