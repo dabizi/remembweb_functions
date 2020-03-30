@@ -10,7 +10,11 @@ exports.getAllScreams = (req, res) => {
         data.forEach(doc => {
             screams.push({
                 screamId: doc.id,
+                theme: doc.data().theme,
+                subject: doc.data().subject,
                 body: doc.data().body,
+                keywords: doc.data().keywords,
+                source: doc.data().source,
                 userHandle: doc.data().userHandle,
                 createdAt: doc.data().createdAt,
                 commentCount: doc.data().commentCount,
