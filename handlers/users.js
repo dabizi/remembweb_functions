@@ -132,6 +132,7 @@ exports.getUserDetails = (req, res) => {
             subject: doc.data().subject,
             theme: doc.data().theme,
             source: doc.data().source,
+            answer: doc.data().answer,
             keywords: doc.data().keywords,
             createdAt: doc.data().createdAt,
             userHandle: doc.data().userHandle,
