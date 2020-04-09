@@ -17,8 +17,6 @@ const {
     likeScream,
     unlikeScream,
     deleteScream,
-    //Test
-    validateTest
 } = require('./handlers/screams');
 
 const { 
@@ -31,6 +29,13 @@ const {
     getUserDetails
  } = require('./handlers/users');
 
+ const {
+     getAllLikes,
+     getLike,
+     successTest,
+     failureTest
+ } = require('./handlers/test');
+
 //Scream route
 app.post('/screams', FBAuth, postOneScream);
 app.post('/screams/:screamId/comment', FBAuth, commentOnScream);
@@ -38,10 +43,14 @@ app.get('/screams', getAllScreams);
 app.get('/screams/:screamId', getScream);
 app.get('/screams/:screamId/like', FBAuth, likeScream);
 app.get('/screams/:screamId/unlike', FBAuth, unlikeScream);
-app.delete('/screams/:screamId', FBAuth, deleteScream)
-//TEST
-app.get('/screams/:screamId/validate', FBAuth, validateTest);
+app.delete('/screams/:screamId', FBAuth, deleteScream);
 
+
+//Test route
+app.get('/likes', getAllLikes);
+app.get('/likes/:likeId', getLike);
+app.get('/likes/:likeId/success', FBAuth, successTest);
+app.get('/likes/:likeId/failure', FBAuth, failureTest);
 
 //Users route
 app.post('/signup', signup);
