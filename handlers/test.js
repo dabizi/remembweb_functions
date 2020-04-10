@@ -1,5 +1,6 @@
 const { db } = require('../utility/admin');
 
+// Give all Likes that exists
 exports.getAllLikes = (req, res) => {
     db
     .collection('likes')
@@ -22,6 +23,7 @@ exports.getAllLikes = (req, res) => {
     .catch(err => console.error(err));
 };
 
+//Get a specific Like
 exports.getLike = (req, res) => {
     let likeData = {};
     db.doc(`/likes/${req.params.likeId}`).get()
@@ -38,6 +40,7 @@ exports.getLike = (req, res) => {
         res.status(500).json({ error: err.code });
     });
 };
+
 
 exports.successTest = (req, res) => {
     db.doc(`/likes/${req.params.likeId}`).get()
@@ -83,40 +86,32 @@ exports.failureTest = (req, res) => {
     });
 };
 
-//WIP
-/*
+//Send back the user and all of its likes
 exports.getUserLikes = (req, res) => {
     let userData = {};
-    db.doc(`/users/${req.params.handle}`)
+    db.doc(`/users/${req.user.handle}`)
       .get()
       .then((doc) => {
         if (doc.exists) {
           userData.user = doc.data();
-          return db
-            .collection('screams')
-            .where('userHandle', '==', req.params.handle)
-            .orderBy('createdAt', 'desc')
-            .get();
+          return  db
+          .collection('likes')
+          .where('userHandle', '==', req.user.handle)
+          .orderBy('testedAt', 'asc')
+          .get()
         } else {
-          return res.status(404).json({ errror: 'User not found' });
-        }
-      })
+            return res.status(404).json({ errror: 'User not found' });
+          }
+        })
       .then((data) => {
-        userData.screams = [];
+        userData.likes = [];
         data.forEach((doc) => {
-          userData.screams.push({
-            body: doc.data().body,
-            subject: doc.data().subject,
-            theme: doc.data().theme,
-            source: doc.data().source,
-            answer: doc.data().answer,
-            keywords: doc.data().keywords,
+          userData.likes.push({
+            level: doc.data().level,
+            testedAt: doc.data().testedAt,
             createdAt: doc.data().createdAt,
-            userHandle: doc.data().userHandle,
-            userImage: doc.data().userImage,
-            likeCount: doc.data().likeCount,
-            commentCount: doc.data().commentCount,
-            screamId: doc.id
+            screamId: doc.data().screamId,
+            likeId: doc.id
           });
         });
         return res.json(userData);
@@ -125,4 +120,45 @@ exports.getUserLikes = (req, res) => {
         console.error(err);
         return res.status(500).json({ error: err.code });
       });
-  };*/
+  };
+
+  exports.getLikesDatePassed = (req, res) => {
+    let userData = {};
+    db.doc(`/users/${req.user.handle}`)
+      .get()
+      .then((doc) => {
+        if (doc.exists) {
+          userData.user = doc.data();
+          return  db
+          .collection('likes')
+          .where('userHandle', '==', req.user.handle)
+          .orderBy('testedAt', 'asc')
+          .get()
+        } else {
+            return res.status(404).json({ errror: 'User not found' });
+          }
+        })
+      .then((data) => {
+        userData.toTest = [];
+        let now = new Date();
+        data.forEach((doc) => {
+            //WIP 
+            let date = new Date(doc.data().testedAt);
+            if (date < now)
+            {
+          userData.toTest.push({
+            level: doc.data().level,
+            testedAt: doc.data().testedAt,
+            createdAt: doc.data().createdAt,
+            screamId: doc.data().screamId,
+            likeId: doc.id
+          });
+        }
+        });
+        return res.json(userData);
+      })
+      .catch((err) => {
+        console.error(err);
+        return res.status(500).json({ error: err.code });
+      });
+  };

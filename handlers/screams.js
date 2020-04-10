@@ -31,9 +31,20 @@ exports.getAllScreams = (req, res) => {
 exports.postOneScream = (req, res) => {
     if(req.method !== 'POST'){
         return res.status(400).json({ error: 'Method not allowed' });
-    } else if (req.body.body.trim() === ''){
-       return res.status(400).json({ body: 'Body must not be empty' });
-   }
+    } else if (req.body.theme.trim() === ''){
+        return res.status(400).json({ theme: 'Theme must not be empty' });
+    } 
+    else if (req.body.subject.trim() === ''){
+        return res.status(400).json({ subject: 'Subject must not be empty' });
+    }
+    else if (req.body.body.trim() === ''){
+       return res.status(400).json({ body: 'Question must not be empty' });
+    }
+    else if (req.body.answer.trim() === ''){
+        return res.status(400).json({ answer: 'Answer must not be empty' });
+     }
+     //Maybe think about adding keywords and source
+    
    const newScream = {
        body: req.body.body,
        // TEST

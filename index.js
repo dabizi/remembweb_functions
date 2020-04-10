@@ -32,6 +32,8 @@ const {
  const {
      getAllLikes,
      getLike,
+     getUserLikes,
+     getLikesDatePassed,
      successTest,
      failureTest
  } = require('./handlers/test');
@@ -51,6 +53,8 @@ app.get('/likes', getAllLikes);
 app.get('/likes/:likeId', getLike);
 app.get('/likes/:likeId/success', FBAuth, successTest);
 app.get('/likes/:likeId/failure', FBAuth, failureTest);
+app.get('/likesall', FBAuth, getUserLikes);
+app.get('/test', FBAuth, getLikesDatePassed);
 
 //Users route
 app.post('/signup', signup);
