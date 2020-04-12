@@ -122,6 +122,7 @@ exports.getUserLikes = (req, res) => {
       });
   };
 
+  //GET THE DATA TO REVIEW WIP CAN MAKE IT LIGHTER WITHOUT USERDATA.USER
   exports.getLikesDatePassed = (req, res) => {
     let userData = {};
     db.doc(`/users/${req.user.handle}`)
@@ -155,7 +156,7 @@ exports.getUserLikes = (req, res) => {
           });
         }
         });
-        return res.json(userData);
+        return res.json(userData.toTest);
       })
       .catch((err) => {
         console.error(err);
